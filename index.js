@@ -2,38 +2,38 @@
 module.exports = function caseParser (obj, cases, filter) {
   if (!isObj(obj) || !isObj(cases)) {
     return obj
-  } else if (filter) {
-    return filteredParse(obj, cases, filter)
   } else {
-    return parse(obj, cases)
+    return parse(obj, cases, filter || (() => true))
   }
 }
 
-function filteredParse (obj, cases, filter) {
-
-}
-
-function parse (obj, cases) {
+function parse (obj, cases, filter) {
   var overwrite, not
   for (let i in obj) {
-    if (cases[i] !== void 0) {
-      if (cases[i]) {
-        overwrite = overwrite === void 0 ? obj[i] : merge(overwrite, obj[i])
+    if (filter(obj[i], i, obj)) {
+      if (cases[i] !== void 0) {
+        if (cases[i]) {
+          overwrite = overwrite === void 0
+          ? obj[i]
+          : merge(overwrite, obj[i], filter)
+        }
+        delete obj[i]
+      } else if (i[0] === '!' && cases[not = i.slice(1)] !== void 0) {
+        if (!cases[not]) {
+          overwrite = overwrite === void 0
+          ? obj[i]
+          : merge(overwrite, obj[i], filter)
+        }
+        delete obj[i]
+      } else if (isObj(obj[i])) {
+        obj[i] = parse(obj[i], cases, filter)
       }
-      delete obj[i]
-    } else if (i[0] === '!' && cases[not = i.slice(1)] !== void 0) {
-      if (!cases[not]) {
-        overwrite = overwrite === void 0 ? obj[i] : merge(overwrite, obj[i])
-      }
-      delete obj[i]
-    } else if (isObj(obj[i])) {
-      obj[i] = parse(obj[i], cases)
     }
   }
 
   if (overwrite) {
-    overwrite = parse(overwrite, cases)
-    obj = merge(obj, overwrite)
+    overwrite = parse(overwrite, cases, filter)
+    obj = merge(obj, overwrite, filter)
   } else if (overwrite === null) {
     return null
   }
@@ -50,7 +50,7 @@ function parse (obj, cases) {
   }
 }
 
-function merge (a, b) {
+function merge (a, b, filter) {
   if (!isObj(a)) {
     if (!isObj(b)) {
       return b
@@ -61,18 +61,20 @@ function merge (a, b) {
     b = { val: b }
   }
   for (let i in b) {
-    if (a[i] === void 0) {
-      if (b[i] === null) {
-        delete a[i]
+    if (filter(b[i], i, b)) {
+      if (a[i] === void 0) {
+        if (b[i] === null) {
+          delete a[i]
+        } else {
+          a[i] = b[i]
+        }
       } else {
-        a[i] = b[i]
-      }
-    } else {
-      const value = merge(a[i], b[i])
-      if (value === null) {
-        delete a[i]
-      } else {
-        a[i] = value
+        const value = merge(a[i], b[i], filter)
+        if (value === null) {
+          delete a[i]
+        } else {
+          a[i] = value
+        }
       }
     }
   }
