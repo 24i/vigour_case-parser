@@ -8,3 +8,14 @@
 <!-- VDOC END -->
 <!-- VDOC END -->
 Parses your object, modifying it for defined cases that apply.
+<!-- VDOC.jsdoc cases -->
+<!-- DON'T EDIT THIS SECTION (including comments), INSTEAD RE-RUN `vdoc` TO UPDATE -->
+#### var updated = case-parser(obj, cases, filter)
+
+Takes an object and merges enabled cases and removes disabled cases in the object
+- **obj** (*object*) - original object
+- **cases** (*object*) - cases object
+- **filter** (*function*) - (optional) filter properties to ignore
+- **returns** (*object*) updated - obj
+
+<!-- VDOC END -->

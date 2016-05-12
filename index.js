@@ -1,4 +1,13 @@
 'use strict'
+/**
+ * @id cases
+ * @function case-parser
+ * Takes an object and merges enabled cases and removes disabled cases in the object
+ * @param {object} obj - original object
+ * @param {object} cases - cases object
+ * @param {function} filter - (optional) filter properties to ignore
+ * @returns {object} updated obj
+ */
 module.exports = function caseParser (obj, cases, filter) {
   if (isObj(obj) && isObj(cases)) {
     return parse(obj, cases, filter || (() => true))
