@@ -1,6 +1,6 @@
 {
   "name": "case-parser",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Parses your object, modifying it for defined cases that apply.",
   "main": "index.js",
   "scripts": {
