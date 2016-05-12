@@ -1,6 +1,6 @@
 {
   "name": "case-parser",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Parses your object, modifying it for defined cases that apply.",
   "main": "index.js",
   "scripts": {
@@ -13,18 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vigour-io/ua.git"
+    "url": "git+https://github.com/vigour-io/case-parser.git"
   },
   "keywords": [
-    "useragent",
-    "browserify"
+    "flags",
+    "cases",
+    "parser"
   ],
-  "author": "Jim de Beer",
+  "author": "Youri Daamen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vigour-io/ua/issues"
+    "url": "https://github.com/vigour-io/case-parser/issues"
   },
-  "homepage": "https://github.com/vigour-io/ua#readme",
+  "homepage": "https://github.com/vigour-io/case-parser#readme",
   "contributors": [],
   "engines": {},
   "dependencies": {
@@ -37,7 +38,6 @@
     "nodemon": "^1.9.1",
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
-    "vigour-doc": "^1.0.5",
-    "budo": "^8.2.2"
+    "vigour-doc": "^1.0.5"
   }
 }
