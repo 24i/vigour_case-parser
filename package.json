@@ -6,9 +6,8 @@
   "scripts": {
     "test": "node test | tap-difflet",
     "watch": "nodemon test | tap-difflet",
-    "cover": "istanbul cover --report none --print detail test/index.js",
-    "browser-test": "budo ./test/index.js --live -- -r ./package.json:package.json",
     "docs": "node_modules/vigour-doc/bin/vdoc",
+    "cover": "istanbul cover --report none --print detail test/index.js",
     "travis": "npm run cover -s && istanbul report lcov && ((cat coverage/lcov.info | coveralls) || exit 0)"
   },
   "repository": {
