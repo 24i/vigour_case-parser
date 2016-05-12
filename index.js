@@ -1,9 +1,9 @@
 'use strict'
 module.exports = function caseParser (obj, cases, filter) {
-  if (!isObj(obj) || !isObj(cases)) {
-    return obj
-  } else {
+  if (isObj(obj) && isObj(cases)) {
     return parse(obj, cases, filter || (() => true))
+  } else {
+    return obj
   }
 }
 
