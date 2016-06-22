@@ -3,7 +3,33 @@ const test = require('tape')
 const c = require('../')
 
 test('value merge', function (t) {
-  t.plan(4)
+  t.plan(8)
+
+  t.same(
+    c({
+      val: 'originalVal',
+      otherField: true,
+      otherNested: {
+        nested: true,
+        reallyNeste: {
+          really: true
+        }
+      }
+    }, {
+      $includeA: true
+    }),
+    {
+      val: 'originalVal',
+      otherField: true,
+      otherNested: {
+        nested: true,
+        reallyNeste: {
+          really: true
+        }
+      }
+    },
+    'without cases'
+  )
 
   t.same(
     c({
@@ -18,6 +44,18 @@ test('value merge', function (t) {
       otherField: true
     },
     'parse object with props'
+  )
+
+  t.same(
+    c({
+      nullField: null
+    }, {
+      $includeA: true
+    }),
+    {
+      nullField: null
+    },
+    'don\'t trow away nulls'
   )
 
   t.same(
@@ -63,6 +101,34 @@ test('value merge', function (t) {
     }),
     'includeB',
     'parse object with val, multiple cases'
+  )
+
+  t.same(
+    JSON.stringify(c({
+      $: [ 'one', 'two', 'three' ]
+    }, {})),
+    JSON.stringify({
+      $: [ 'one', 'two', 'three' ]
+    }),
+    'handle arrays'
+  )
+
+  t.same(
+    JSON.stringify(c({
+      inject: [
+        { one: 'one' },
+        { two: 'two' },
+        { three: 'three' }
+      ]
+    }, {})),
+    JSON.stringify({
+      inject: [
+        { one: 'one' },
+        { two: 'two' },
+        { three: 'three' }
+      ]
+    }),
+    'objects inside arrays'
   )
 })
 
@@ -119,7 +185,7 @@ test('deletions', function (t) {
 })
 
 test('! (negative) notation', function (t) {
-  t.plan(1)
+  t.plan(2)
 
   t.same(
     c({
@@ -131,24 +197,48 @@ test('! (negative) notation', function (t) {
     'notSomething',
     'parse object with ! notation'
   )
+
+  t.same(
+    c({
+      outsideValue: 'outsideValue',
+      '!$something': {
+        somethingA: true,
+        somethingB: {
+          somethingC: false
+        }
+      },
+      outSideNested: {
+        nested: true
+      }
+    }, {
+      $something: false
+    }),
+    {
+      outsideValue: 'outsideValue',
+      somethingA: true,
+      somethingB: {
+        somethingC: false
+      },
+      outSideNested: {
+        nested: true
+      }
+    },
+    'complex object with ! notation'
+  )
 })
 
 test('order', function (t) {
   t.plan(1)
 
-  const wawa = c({
-    one: 'one',
-    '$something': {
-      two: 'two'
-    },
-    three: 'three'
-  }, {
-    $something: true
-  })
-
   t.same(
     JSON.stringify(
-      wawa
+      c({
+        one: 'one',
+        '$something': {
+          two: 'two'
+        },
+        three: 'three'
+      }, { $something: true })
     ),
     JSON.stringify(
       {

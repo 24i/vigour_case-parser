@@ -6,7 +6,7 @@
  * @param {object} obj - original object
  * @param {object} cases - cases object
  * @param {function} filter - (optional) filter properties to ignore
- * @returns {object} updated obj
+ * @returns {object} new obj
  */
 module.exports = function caseParser (obj, cases, filter) {
   if (isObj(obj) && isObj(cases)) {
@@ -19,6 +19,10 @@ module.exports = function caseParser (obj, cases, filter) {
 function parse (obj, cases, filter) {
   var not
   var result = {}
+  if (isObj(obj) && obj.constructor === Array) {
+    result = []
+  }
+
   for (let i in obj) {
     if (filter(obj[i], i, obj)) {
       if (cases[i] !== void 0) {
@@ -34,7 +38,7 @@ function parse (obj, cases, filter) {
         }
       } else if (isObj(obj[i])) {
         result[i] = parse(obj[i], cases, filter)
-      } else if (obj[i] !== null) {
+      } else {
         result[i] = obj[i]
       }
     }
