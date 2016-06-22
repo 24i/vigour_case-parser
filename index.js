@@ -17,45 +17,38 @@ module.exports = function caseParser (obj, cases, filter) {
 }
 
 function parse (obj, cases, filter) {
-  var overwrite, not
+  var not
+  var result = {}
   for (let i in obj) {
     if (filter(obj[i], i, obj)) {
       if (cases[i] !== void 0) {
         if (cases[i]) {
-          overwrite = overwrite === void 0
-          ? obj[i]
-          : merge(overwrite, obj[i], filter)
+          if (obj[i] === null) {
+            return null
+          }
+          result = merge(result, obj[i], filter)
         }
-        delete obj[i]
       } else if (i[0] === '!' && cases[not = i.slice(1)] !== void 0) {
         if (!cases[not]) {
-          overwrite = overwrite === void 0
-          ? obj[i]
-          : merge(overwrite, obj[i], filter)
+          result = merge(result, obj[i], filter)
         }
-        delete obj[i]
       } else if (isObj(obj[i])) {
-        obj[i] = parse(obj[i], cases, filter)
+        result[i] = parse(obj[i], cases, filter)
+      } else if (obj[i] !== null) {
+        result[i] = obj[i]
       }
     }
   }
 
-  if (overwrite) {
-    overwrite = parse(overwrite, cases, filter)
-    obj = merge(obj, overwrite, filter)
-  } else if (overwrite === null) {
-    return null
-  }
-
-  if (obj.val) {
-    for (let i in obj) {
+  if (result.val) {
+    for (let i in result) {
       if (i !== 'val') {
-        return obj
+        return result
       }
     }
-    return obj.val
+    return result.val
   } else {
-    return obj
+    return result
   }
 }
 

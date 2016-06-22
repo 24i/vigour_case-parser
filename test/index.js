@@ -3,7 +3,7 @@ const test = require('tape')
 const c = require('../')
 
 test('value merge', function (t) {
-  t.plan(3)
+  t.plan(4)
 
   t.same(
     c({
@@ -18,6 +18,25 @@ test('value merge', function (t) {
       otherField: true
     },
     'parse object with props'
+  )
+
+  t.same(
+    c({
+      one: {
+        val: 'originalVal',
+        $includeA: 'includeA',
+        otherField: true
+      }
+    }, {
+      $includeA: true
+    }),
+    {
+      one: {
+        val: 'includeA',
+        otherField: true
+      }
+    },
+    'deep parse object with props'
   )
 
   t.same(
@@ -111,5 +130,33 @@ test('! (negative) notation', function (t) {
     }),
     'notSomething',
     'parse object with ! notation'
+  )
+})
+
+test('order', function (t) {
+  t.plan(1)
+
+  const wawa = c({
+    one: 'one',
+    '$something': {
+      two: 'two'
+    },
+    three: 'three'
+  }, {
+    $something: true
+  })
+
+  t.same(
+    JSON.stringify(
+      wawa
+    ),
+    JSON.stringify(
+      {
+        one: 'one',
+        two: 'two',
+        three: 'three'
+      }
+    ),
+    'order should not change'
   )
 })
