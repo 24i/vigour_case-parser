@@ -93,3 +93,4 @@ function merge (a, b, filter) {
 function isObj (obj) {
   return typeof obj === 'object' && obj !== null
 }
+
