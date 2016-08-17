@@ -250,3 +250,36 @@ test('order', function (t) {
     'order should not change'
   )
 })
+
+test('nested', function (t) {
+  t.plan(1)
+
+  t.same(
+    JSON.stringify(
+      c({
+        one: 'one',
+        '$something': {
+          two: 'two',
+          '$another': {
+            another: 'another'
+          },
+          '!$not': {
+            not: 'not'
+          }
+        },
+        three: 'three'
+      }, { $something: true, $another: true, $not: false })
+    ),
+    JSON.stringify(
+      {
+        one: 'one',
+        two: 'two',
+        another: 'another',
+        not: 'not',
+        three: 'three'
+      }
+    ),
+    'should work with nested cases'
+  )
+})
+

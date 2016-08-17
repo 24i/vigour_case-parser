@@ -30,11 +30,15 @@ function parse (obj, cases, filter) {
           if (obj[i] === null) {
             return null
           }
-          result = merge(result, obj[i], filter)
+          result = isObj(obj[i])
+            ? merge(result, parse(obj[i], cases, filter), filter)
+            : merge(result, obj[i], filter)
         }
       } else if (i[0] === '!' && cases[not = i.slice(1)] !== void 0) {
         if (!cases[not]) {
-          result = merge(result, obj[i], filter)
+          result = isObj(obj[i])
+            ? merge(result, parse(obj[i], cases, filter), filter)
+            : merge(result, obj[i], filter)
         }
       } else if (isObj(obj[i])) {
         result[i] = parse(obj[i], cases, filter)
