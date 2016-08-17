@@ -185,7 +185,7 @@ test('deletions', function (t) {
 })
 
 test('! (negative) notation', function (t) {
-  t.plan(2)
+  t.plan(3)
 
   t.same(
     c({
@@ -224,6 +224,15 @@ test('! (negative) notation', function (t) {
       }
     },
     'complex object with ! notation'
+  )
+
+  t.same(
+    c({
+      val: 'originalVal',
+      '!$something': 'notSomething'
+    }, {}),
+    'notSomething',
+    'parse object with ! notation when case does not exist'
   )
 })
 

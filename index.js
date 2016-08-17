@@ -34,7 +34,7 @@ function parse (obj, cases, filter) {
             ? merge(result, parse(obj[i], cases, filter), filter)
             : merge(result, obj[i], filter)
         }
-      } else if (i[0] === '!' && cases[not = i.slice(1)] !== void 0) {
+      } else if (i[0] === '!') {
         if (!cases[not]) {
           result = isObj(obj[i])
             ? merge(result, parse(obj[i], cases, filter), filter)
