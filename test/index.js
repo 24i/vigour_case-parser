@@ -86,7 +86,7 @@ test('value merge', function (t) {
       $excludeA: false,
       $includeA: true
     }),
-    'includeA',
+    { val: 'includeA' },
     'parse object with val'
   )
 
@@ -99,7 +99,7 @@ test('value merge', function (t) {
       includeB: true,
       $includeA: true
     }),
-    'includeB',
+    { val: 'includeB' },
     'parse object with val, multiple cases'
   )
 
@@ -168,7 +168,7 @@ test('deletions', function (t) {
     }, {
       $includeA: true
     }),
-    'originalVal',
+    { val: 'originalVal' },
     'delete property using case'
   )
 
@@ -194,7 +194,7 @@ test('! (negative) notation', function (t) {
     }, {
       $something: false
     }),
-    'notSomething',
+    { val: 'notSomething' },
     'parse object with ! notation'
   )
 

@@ -48,16 +48,7 @@ function parse (obj, cases, filter) {
     }
   }
 
-  if (result.val) {
-    for (let i in result) {
-      if (i !== 'val') {
-        return result
-      }
-    }
-    return result.val
-  } else {
-    return result
-  }
+  return result
 }
 
 function merge (a, b, filter) {
